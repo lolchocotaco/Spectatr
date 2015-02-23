@@ -8,8 +8,6 @@
  */
 
 // Included plugins
-var argv = require('yargs').argv;
-var nodemon = require('gulp-nodemon');
 var bump = require('gulp-bump');
 
 var gulp = require('gulp'),
@@ -76,10 +74,10 @@ gulp.task('clean', function () {
 
 
 gulp.task('vendor-js', function () {
-  return browserify()
+  return browserify({debug:isDebug})
     .transform(reactifyES6)
     .require(vendorLibs)
-    .bundle({debug:isDebug})
+    .bundle()
     .on('error', logAndEndStream)
     .pipe(source('vendor.js'))
     .pipe(gulp.dest('build/js'));
@@ -88,9 +86,10 @@ gulp.task('vendor-js', function () {
 
 gulp.task('app', function () {
   return browserify({
-    entries: ['./app/App.js']
+    entries: ['./webapp/App.js'],
+    debug: isDebug
   }).transform(reactifyES6)
-    .bundle({debug: isDebug})
+    .bundle()
     .on('error', logAndEndStream)
     .pipe(source('app.js'))
     .pipe(gulp.dest('build/js'))
@@ -100,9 +99,9 @@ gulp.task('app', function () {
 gulp.task('watch', function () {
   livereload.listen();
   gulp.watch([
-    './app/components/**/*.js',
-    './app/services/**/*.js',
-    './app/App.js'
+    './webapp/components/**/*.js',
+    './webapp/services/**/*.js',
+    './webapp/App.js'
   ], ['app']);
 });
 

@@ -1,6 +1,5 @@
 var express = require('express'),
   bodyParser = require('body-parser'),
-  session = require('express-session'),
   errors = require('common-errors'),
   morgan = require('morgan'),
   services = require('./services'),
