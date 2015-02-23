@@ -16,19 +16,6 @@
     "url": "https://github.com/schauhan19/Spectatr/issues"
   },
   "homepage": "https://github.com/schauhan19/Spectatr",
-  "devDependencies": {
-    "browserify": "^9.0.3",
-    "del": "^1.1.1",
-    "gulp": "^3.8.11",
-    "gulp-bump": "^0.1.13",
-    "gulp-livereload": "^3.7.0",
-    "gulp-util": "^3.0.3",
-    "gulp-watch": "^4.1.1",
-    "nodemon": "^1.3.7",
-    "reactify": "^1.0.0",
-    "sinon": "^1.12.2",
-    "vinyl-source-stream": "^1.0.0"
-  },
   "dependencies": {
     "async": "^0.9.0",
     "body-parser": "^1.12.0",
@@ -40,5 +27,18 @@
     "react-bootstrap": "^0.15.1",
     "request": "^2.53.0",
     "winston": "^0.9.0"
+  },
+    "devDependencies": {
+    "browserify": "^9.0.3",
+    "del": "^1.1.1",
+    "gulp": "^3.8.11",
+    "gulp-bump": "^0.1.13",
+    "gulp-livereload": "^3.7.0",
+    "gulp-util": "^3.0.3",
+    "gulp-watch": "^4.1.1",
+    "nodemon": "^1.3.7",
+    "reactify": "^1.0.0",
+    "sinon": "^1.12.2",
+    "vinyl-source-stream": "^1.0.0"
   }
 }
