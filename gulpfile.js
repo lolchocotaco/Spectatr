@@ -55,7 +55,7 @@ gulp.task('bump-pre', function(){
 
 // exclude server-side packages
 vendorLibs = vendorLibs.filter(function (lib) {
-  var excluded = ['express','express-session'],
+  var excluded = ['express','express-session', 'common-errors', 'morgan', 'body-parser'],
     isExcluded = (excluded.indexOf(lib) > -1);
   return !isExcluded;
 });
