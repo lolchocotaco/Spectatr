@@ -17,8 +17,16 @@
   },
   "homepage": "https://github.com/schauhan19/Spectatr",
   "devDependencies": {
+    "browserify": "^9.0.3",
     "gulp": "^3.8.11",
     "gulp-bump": "^0.1.13",
-    "nodemon": "^1.3.7"
+    "nodemon": "^1.3.7",
+    "reactify": "^1.0.0",
+    "sinon": "^1.12.2"
+  },
+  "dependencies": {
+    "common-errors": "^0.4.18",
+    "express": "^4.12.0",
+    "morgan": "^1.5.1"
   }
 }
