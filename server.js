@@ -5,15 +5,15 @@ var express = require('express'),
   morgan = require('morgan'),
   services = require('./services'),
   logger = services.logger,
-  db = services.db,
-  PORT_NUM = process.env.PORT || '8000',
+  PORT_NUM = process.env.PORT || '8080',
   app = express();
 
 // Middleware
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 // Routes
-app.use('/url', require('./routes/url'));
+app.use(express.static(__dirname));
+app.use('/', require('./resources/index'));
 
 // Error Handler
 app.use(errors.middleware.errorHandler);
