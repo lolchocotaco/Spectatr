@@ -86,7 +86,7 @@ gulp.task('vendor-js', function () {
 
 gulp.task('app', function () {
   return browserify({
-    entries: ['./webapp/App.js'],
+    entries: ['./app/App.js'],
     debug: isDebug
   }).transform(reactifyES6)
     .bundle()
@@ -99,9 +99,9 @@ gulp.task('app', function () {
 gulp.task('watch', function () {
   livereload.listen();
   gulp.watch([
-    './webapp/components/**/*.js',
-    './webapp/services/**/*.js',
-    './webapp/App.js'
+    './app/components/**/*.js',
+    './app/services/**/*.js',
+    './app/App.js'
   ], ['app']);
 });
 
