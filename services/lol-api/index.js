@@ -32,7 +32,7 @@ LOL_API.getMatchInfo = function (region, player_id, cb) {
 
   request.get(requestUrl, function (err, response, body) {
     if (err) return cb(err);
-    if (response.statusCode == 404) {
+    if (response.statusCode === 404) {
       return cb(null, {
         status : 'fail',
         message : 'Player is not in a game'
