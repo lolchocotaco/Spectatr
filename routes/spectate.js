@@ -4,10 +4,10 @@
  *
  */
 
-
 var express = require('express'),
     Api = require('../services/lol-api'),
     router = express.Router();
+
 
 router.get('/', function (req, res, next) {
   res.json({
@@ -23,7 +23,6 @@ router.get('/getInfo/:region/:summoner_name', function (req, res, next) {
     if (err) return next(err);
     res.json(data);
   });
-
 });
 
 // Expose the router
