@@ -8,8 +8,6 @@
  */
 
 // Included plugins
-var bump = require('gulp-bump');
-
 var gulp = require('gulp'),
   livereload = require('gulp-livereload'),
   gutil = require('gulp-util'),
@@ -18,45 +16,15 @@ var gulp = require('gulp'),
   browserify = require('browserify'),
   reactify = require('reactify'),
   source = require('vinyl-source-stream'),
-  vendorLibs = Object.keys(require('./package').dependencies),
   server = require('./server'),
-  isDebug = (process.env.NODE_ENV !== 'production');
-
-/*
- * Update semver version numbers (ver: Major.Minor.Patch.Pre)
- */
-gulp.task('bump-major', function(){
-  gulp.src(['./package.json'])
-  .pipe(bump({type:'major'}))
-  .pipe(gulp.dest('./'));
-});
-
-gulp.task('bump-minor', function(){
-  gulp.src(['./package.json'])
-  .pipe(bump({type:'minor'}))
-  .pipe(gulp.dest('./'));
-});
-
-gulp.task('bump-patch', function(){
-  gulp.src(['./package.json'])
-  .pipe(bump({type:'patch'}))
-  .pipe(gulp.dest('./'));
-});
-
-gulp.task('bump-pre', function(){
-  gulp.src(['./package.json'])
-  .pipe(bump({type:'prerelease'}))
-  .pipe(gulp.dest('./'));
-});
-
-
-
-// exclude server-side packages
-vendorLibs = vendorLibs.filter(function (lib) {
-  var excluded = ['express','express-session', 'common-errors', 'morgan', 'body-parser'],
-    isExcluded = (excluded.indexOf(lib) > -1);
-  return !isExcluded;
-});
+  isDebug = (process.env.NODE_ENV !== 'production'),
+  vendorLibs = [
+    'react',
+    'react-bootstrap',
+    'async',
+    'domready',
+    'request',
+  ];
 
 var reactifyES6 = function (file) {
   return reactify(file, {harmony: true});
@@ -67,11 +35,10 @@ gulp.task('build', ['vendor-js', 'app']);
 
 gulp.task('clean', function () {
   del([
-    './build/**/*.js',
-    './build/**/*.css'
+    './public/build/**/*.js',
+    './public/build/**/*.css'
   ]);
 });
-
 
 gulp.task('vendor-js', function () {
   return browserify({debug:isDebug})
@@ -80,7 +47,7 @@ gulp.task('vendor-js', function () {
     .bundle()
     .on('error', logAndEndStream)
     .pipe(source('vendor.js'))
-    .pipe(gulp.dest('build/js'));
+    .pipe(gulp.dest('public/build/js'));
 });
 
 
@@ -92,7 +59,7 @@ gulp.task('app', function () {
     .bundle()
     .on('error', logAndEndStream)
     .pipe(source('app.js'))
-    .pipe(gulp.dest('build/js'))
+    .pipe(gulp.dest('public/build/js'))
     .pipe(livereload({auto: false}));
 });
 
@@ -115,4 +82,3 @@ function logAndEndStream(err) {
   gutil.log(err.stack);
   this.end();
 }
-

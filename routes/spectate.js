@@ -4,5 +4,7 @@ var express = require('express'),
 module.exports = router;
 
 router.get('/', function (req, res, next) {
-  res.send('../index.html');
+  res.json({
+    message: "Welcome to the Spectatr API. :) "
+  });
 });

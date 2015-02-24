@@ -1,4 +1,5 @@
 var express = require('express'),
+  path = require('path'),
   bodyParser = require('body-parser'),
   errors = require('common-errors'),
   morgan = require('morgan'),
@@ -11,8 +12,8 @@ var express = require('express'),
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 // Routes
-app.use(express.static(__dirname));
-app.use('/', require('./resources/index'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/spectate', require('./routes/spectate'));
 
 // Error Handler
 app.use(errors.middleware.errorHandler);
@@ -21,4 +22,3 @@ if (!module.parent) {
   app.listen(PORT_NUM);
   logger.info('Server listening on port: %s', PORT_NUM );
 }
-
