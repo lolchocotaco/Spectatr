@@ -4,7 +4,6 @@ var winston = require('winston'),
 module.exports = services;
 
 // Shared services
-
 services.logger = new(winston.Logger)({
   transports: [
     new(winston.transports.Console)({
@@ -16,3 +15,5 @@ services.logger = new(winston.Logger)({
     })
   ]
 });
+
+services.API_KEY = process.env.API_KEY;

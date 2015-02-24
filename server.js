@@ -18,6 +18,7 @@ app.use('/spectate', require('./routes/spectate'));
 // Error Handler
 app.use(errors.middleware.errorHandler);
 
+// Since its included in the gulp file
 if (!module.parent) {
   app.listen(PORT_NUM);
   logger.info('Server listening on port: %s', PORT_NUM );
