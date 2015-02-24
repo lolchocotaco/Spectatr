@@ -1,7 +1,11 @@
 var request = require('request'),
-  api_endpoint = process.env.api_endpoint || document.location.href ||'http://localhost:8080';
+  api_endpoint = process.env.api_endpoint ||'http://localhost:8080/';
 
 module.exports = api = {}
+
+if (document.window) {
+  api_endpoint = document.window.href;
+}
 
 api.getData = function (region, player_name, cb) {
   var requestUrl = api_endpoint +'spectate/getInfo/'+ region +'/'+player_name;

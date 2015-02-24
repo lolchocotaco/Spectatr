@@ -17,15 +17,20 @@ var Tile = React.createClass({
       self.setState(data);
     });
   },
-  render: function(){
+  render: function() {
+    var link;
+    if (this.state.gameId) {
+      // TODO: figure out how to make an actual link
+      link = <a href="{this.state.gameId} {this.state.spectateKey}">Click meh</a>;
+    }
+
     return(
       <a href="#">
-        <div className="tile">
-          {this.props.player.region}
-          {this.props.player.name}
-          {this.state.message}
-          {this.state.gameId}
-          {this.state.spectateKey}
+        <div className="tile w3">
+          {this.props.player.region} <br/>
+          {this.props.player.name} <br/>
+          {this.state.message} <br/>
+          {link}
         </div>
       </a>
     )
