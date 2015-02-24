@@ -22,8 +22,8 @@ LOL_API.getSummonerInfo = function(region, summoner_name, cb) {
 
 // var requestUrl = 'https://${region}.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/${platform_id}/${player_id}?api_key=${API_KEY}';
 LOL_API.getMatchInfo = function (region, player_id, cb) {
-  region = 'na';
-  var platform_id = 'NA1'; // TODO: MAP region to platformID
+  var region = 'na',
+    platform_id = 'NA1'; // TODO: MAP region to platformID
 
   var requestUrl = 'https://' +
                     region + '.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/' +
