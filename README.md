@@ -7,12 +7,13 @@ API you will need to either supply a valid API key to this application either as
 called API_KEY or in the git ignored file `services/lol-api/api_key.js`. The contents of that file should
 be the following:
 
+```
   var API_KEY = '<API_KEY_AS_A_STRING>';
 
   module.exports = {
     API_KEY: API_KEY
   };
-
+```
 
 Things to consider:
 * is summoner data consistent across different region API calls. 
