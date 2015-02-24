@@ -14,6 +14,7 @@ LOL_API.getSummonerInfo = function(region, summoner_name, cb) {
     API_KEY;
   request.get(requestUrl, function (err, response, body) {
     if (err) return cb(err);
+    // TODO: 404s when invalid player name
     cb(null, JSON.parse(body));
   })
 }
@@ -49,17 +50,16 @@ LOL_API.getSpectateInfo = function(region, name, cb) {
       self.getSummonerInfo(region, name, callback);
     },
     function (player_info, callback) {
-      console.log(player_info)
-      self.getMatchInfo(region, player_info[name].id, callback)
+      self.getMatchInfo(region, player_info[name.toLowerCase()].id, callback)
     }
   ], function (err, spectate_data) {
     console.log(spectate_data);
     if (err) return cb(err);
-    cb(null, spectate_data);
-    // cb(null, {
-    //   gameId: results.gameId,
-    //   spectateKey : results.observers.encryptionKey
-    // })
+    // cb(null, spectate_data);
+    cb(null, {
+      gameId: spectate_data.gameId,
+      spectateKey : spectate_data.observers.encryptionKey
+    })
   })
 
 }
