@@ -24,6 +24,7 @@ var gulp = require('gulp'),
     'async',
     'domready',
     'request',
+    'masonry-layout'
   ];
 
 var reactifyES6 = function (file) {
