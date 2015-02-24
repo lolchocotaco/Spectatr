@@ -1,5 +1,5 @@
 var winston = require('winston'),
-  services = {};
+    services = {};
 
 module.exports = services;
 
