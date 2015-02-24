@@ -9,6 +9,12 @@ api.getData = function(region, player_name, cb) {
     if (err) {
       return cb({message: 'Cannot contact backend!'});
     }
-    cb(body);
+    var data = JSON.parse(body);
+
+    if (data.body == 'success') return cb(data);
+    return(cb)
+    // return something if something screwed up
+    // data.message should exist
+
   })
 }

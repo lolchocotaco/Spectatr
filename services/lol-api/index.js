@@ -58,6 +58,7 @@ LOL_API.getSpectateInfo = function(region, name, cb) {
     if (err) return cb(err);
     // cb(null, spectate_data);
     cb(null, {
+      status : 'success',
       gameId: spectate_data.gameId,
       spectateKey : spectate_data.observers.encryptionKey
     });
