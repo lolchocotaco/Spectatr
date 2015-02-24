@@ -4,24 +4,32 @@ var request = require('request'),
 
 module.exports = LOL_API = {};
 
+// Template strings don't work :(
+//  var requestUrl = 'https://${region}.api.pvp.net/api/lol/${region}/v1.4/summoner/by-name/${summoner_name}?api_key=${API_KEY}';
 LOL_API.getSummonerInfo = function(region, summoner_name, cb) {
-  var requestUrl = 'https://${region}.api.pvp.net/api/lol/${region}/v1.4/summoner/by-name/${summoner_name}?api_key=${API_KEY}';
-  console.log(requestUrl);
+  var requestUrl = 'https://'+
+    region +'.api.pvp.net/api/lol/'+
+    region +'/v1.4/summoner/by-name/'+
+    summoner_name +'?api_key='+
+    API_KEY;
   request.get(requestUrl, function (err, response, body) {
     if (err) return cb(err);
-    cb(null, body);
+    cb(null, JSON.parse(body));
   })
 }
 
+// var requestUrl = 'https://${region}.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/${platform_id}/${player_id}?api_key=${API_KEY}';
 
 LOL_API.getMatchInfo = function (region, player_id, cb) {
   var platform_id = 'KR'; // TODO: MAP region to platformID
-  var requestUrl =
-   'https://${region}.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/${platform_id}/${player_id}?api_key=${API_KEY}';
-   console.log(requestUrl);
+  var requestUrl = 'https://'+
+    region +'.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/'+
+    platform_id +'/'+ player_id +'?api_key='+
+    API_KEY;
+
   request.get(requestUrl, function (err, response, body) {
     if (err) return cb(err);
-    cb(null, body);
+    cb(null, JSON.parse(body));
   })
 }
 
@@ -35,12 +43,13 @@ LOL_API.getSpectateInfo = function(region, name, cb) {
     function (player_info, callback) {
       self.getMatchInfo(region, player_info[name].id, callback)
     }
-  ], function (err, results) {
+  ], function (err, spectate_data) {
     if (err) return cb(err);
-    cb(null, {
-      gameId: results.gameId,
-      spectateKey : results.observers.encryptionKey
-    })
+    cb(null, spectate_data);
+    // cb(null, {
+    //   gameId: results.gameId,
+    //   spectateKey : results.observers.encryptionKey
+    // })
   })
 
 }
