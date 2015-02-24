@@ -6,11 +6,34 @@ var React = require('react/addons'),
   SpectatorTiles = require('./components/SpectatorTiles')
 
 var Spectatr = React.createClass({
+  getInitialState: function(){
+    return({players:[]});
+  },
+  componentDidMount: function(){
+    //Replace with function to get valid players
+    this.setState({
+      players :[
+        {
+          name: 'HippoBirth',
+          region: 'NA'
+        },
+        {
+         name: 'LikelyToDie',
+         region: 'NA'
+        },
+        {
+          name: 'imaqtpie',
+          region: 'NA',
+        }
+       ]
+    });
+  },
+
   render: function () {
     return (
       <div className="container">
         <h1> {this.props.title} </h1>
-        <SpectatorTiles />
+        <SpectatorTiles players={this.state.players}/>
       </div>
     );
   }
