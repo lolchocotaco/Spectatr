@@ -20,7 +20,7 @@ LOL_API.getSummonerInfo = function(region, summoner_name, cb) {
 
   request.get(requestUrl, function (err, response, body) {
     if (err) { return cb(err); }
-    // TODO: 404s when invalid player name
+    // TODO: 404s when invalid player name OR Wrong region. Pls fix.
     cb(null, JSON.parse(body));
   });
 };
@@ -41,7 +41,7 @@ LOL_API.getMatchInfo = function (region, player_id, cb) {
     if (response.statusCode === 404) {
       return cb(null, {
         status : 'fail',
-        message : 'Player is not in a game'
+        message : 'Player is not in a game!'
       });
     }
     cb(null, JSON.parse(body));
@@ -50,8 +50,7 @@ LOL_API.getMatchInfo = function (region, player_id, cb) {
 
 
 LOL_API.getSpectateInfo = function(region, name, cb) {
-  console.log("hm..........................");
-  console.log(API_KEY);
+
   var self = this;
   async.waterfall([
     function (callback) {
@@ -61,11 +60,12 @@ LOL_API.getSpectateInfo = function(region, name, cb) {
       self.getMatchInfo(region, player_info[name.toLowerCase()].id, callback)
     }
   ], function (err, spectate_data) {
-    console.log(spectate_data);
     if (err) return cb(err);
-    // cb(null, spectate_data);
+    if (spectate_data.status === 'fail') { return cb(null, spectate_data); }
+
     cb(null, {
       status : 'success',
+      message :'Player is in a game!',
       gameId: spectate_data.gameId,
       spectateKey : spectate_data.observers.encryptionKey
     });
