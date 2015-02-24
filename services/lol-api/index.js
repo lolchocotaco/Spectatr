@@ -14,9 +14,8 @@ LOL_API.getSummonerInfo = function(region, summoner_name, cb) {
                     API_KEY;
 
   request.get(requestUrl, function (err, response, body) {
-    if (err) return cb(err);
-    // TODO: 404s when invalid player name
     if (err) { return cb(err); }
+    // TODO: 404s when invalid player name
     cb(null, JSON.parse(body));
   });
 };
