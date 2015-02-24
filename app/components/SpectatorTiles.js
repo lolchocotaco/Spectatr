@@ -11,20 +11,22 @@ var Tile = React.createClass({
   getInitialState: function() {
     return({});
   },
-   componentDidMount: function(){
+
+  componentDidMount: function(){
     var self = this;
     apiSvc.getData(this.props.player.region, this.props.player.name, function(err, data) {
       self.setState(data);
     });
   },
+
   render: function() {
     var link = "#";
+
     //This is ugly....
     if ( !(this.state.status) ) {
       btnClass='btn-default';
     } else {
       if (this.state.gameId) {
-        // TODO: figure out how to make an actual link
         btnClass='btn-success';
         link = 'http://'+this.props.player.region+'.op.gg/match/observer/id='+this.state.gameId;
       } else{

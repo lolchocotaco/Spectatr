@@ -10,6 +10,7 @@ var Spectatr = React.createClass({
   getInitialState: function(){
     return({players:[]});
   },
+
   componentDidMount: function(){
     apiSvc.getPlayers(function(err, players) {
       this.setState({
