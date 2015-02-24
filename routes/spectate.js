@@ -23,7 +23,27 @@ router.get('/getInfo/:region/:summoner_name', function (req, res, next) {
     if (err) return next(err);
     res.json(data);
   });
+});
 
+
+router.get('/getPlayers', function(req,res,next) {
+  // Actually get players properly.
+  var players = [
+    {
+      name: 'HippoBirth',
+      region: 'NA'
+    },
+    {
+     name: 'LikelyToDie',
+     region: 'NA'
+    },
+    {
+      name: 'imaqtpie',
+      region: 'NA',
+    }
+  ];
+
+  res.json(players);
 });
 
 // Expose the router

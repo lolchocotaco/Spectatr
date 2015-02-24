@@ -3,30 +3,19 @@
 var React = require('react/addons'),
   RB = require('react-bootstrap'),
   domready = require('domready'),
-  SpectatorTiles = require('./components/SpectatorTiles')
+  SpectatorTiles = require('./components/SpectatorTiles'),
+  apiSvc = require('./services/api');
 
 var Spectatr = React.createClass({
   getInitialState: function(){
     return({players:[]});
   },
   componentDidMount: function(){
-    //Replace with function to get valid players
-    this.setState({
-      players :[
-        {
-          name: 'HippoBirth',
-          region: 'NA'
-        },
-        {
-         name: 'LikelyToDie',
-         region: 'NA'
-        },
-        {
-          name: 'imaqtpie',
-          region: 'NA',
-        }
-       ]
-    });
+    apiSvc.getPlayers(function(err, players) {
+      this.setState({
+        players: players
+      });
+    }.bind(this));
   },
 
   render: function () {
