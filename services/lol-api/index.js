@@ -1,6 +1,11 @@
 var request = require('request'),
-    async = require('async'),
-    API_KEY = process.env.API_KEY;
+    async = require('async');
+
+var KEY_FILE = require('./api_key.js');
+var API_KEY = process.env.API_KEY;
+if (!API_KEY) {
+  API_KEY = KEY_FILE.API_KEY;
+}
 
 module.exports = LOL_API = {};
 
@@ -33,7 +38,7 @@ LOL_API.getMatchInfo = function (region, player_id, cb) {
 
   request.get(requestUrl, function (err, response, body) {
     if (err) return cb(err);
-    if (response.statusCode == 404) {
+    if (response.statusCode === 404) {
       return cb(null, {
         status : 'fail',
         message : 'Player is not in a game'
@@ -45,6 +50,8 @@ LOL_API.getMatchInfo = function (region, player_id, cb) {
 
 
 LOL_API.getSpectateInfo = function(region, name, cb) {
+  console.log("hm..........................");
+  console.log(API_KEY);
   var self = this;
   async.waterfall([
     function (callback) {
