@@ -17,7 +17,7 @@ var express = require('express'),
 module.exports = app;
 
 // Middleware
-app.use(morgan('combined'));
+app.use(morgan('dev'));
 app.use(bodyParser.json());
 
 // Routes

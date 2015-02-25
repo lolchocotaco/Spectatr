@@ -5,35 +5,25 @@
  *
  */
 
-var memjs = require('memjs');
-var mc = memjs.Client.create();
+var memjs = require('memjs'),
+  mc = memjs.Client.create(),
+  TIMEOUT = 60; // 1 minute timeout
 
 module.exports = cacheSvc = {};
 
 /**
  * @function getValue
- * @param {String} namespace - cache value namespace
- * @param {Integer} timeout - expiration time (in seconds) for the cache value
- * @param {function} dataProvider - the function which provides the data if the cache value is stale
+ * @param {String} key - cache key
  *
- * Hit the cache to see if the value associated with namespace exists within the cache and
+ * Hit the cache to see if the value associated with key exists within the cache and
  * retrieve it if possible.
  *
- * If the value is stale or doesn't exist in the cache then get the value from
- * the dataProvider
  *
  */
-cacheSvc.getValue = function (namespace, timeout, dataProvider, cb) {
-  mc.get(namespace, function (err, cachedValue) {
-    if (err) return cb(err);
-    if (cachedValue) return cb(null, cachedValue);
+cacheSvc.getValue = function (key, cb) {
+  mc.get(key,cb);
+}
 
-    dataProvider(function (err, data) {
-      if (err) return cb(err);
-      
-      mc.set(namespace, data, function(err, value) {
-        cb(err, data);
-      }, timeout);
-    });
-  });
-};
+cacheSvc.setValue = function (key, value, cb) {
+  mc.set(key, value, cb, TIMEOUT)
+}

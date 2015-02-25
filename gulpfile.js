@@ -10,6 +10,7 @@
 // Included plugins
 var gulp = require('gulp'),
   livereload = require('gulp-livereload'),
+  nodemon = require('gulp-nodemon'),
   gutil = require('gulp-util'),
   del = require('del'),
   path = require('path'),
@@ -73,12 +74,13 @@ gulp.task('watch', function () {
   ], ['app']);
 });
 
-
 gulp.task('server', function () {
-  server.listen(8080, function () {
-    gutil.log('Server listening on http://localhost:8080');
-  });
+
+  nodemon({ script: 'server.js', ext: 'html js', env : { 'NODE_ENV': 'development' } })
+   .on('restart', function () {
+   });
 });
+
 function logAndEndStream(err) {
   gutil.log(err.stack);
   this.end();

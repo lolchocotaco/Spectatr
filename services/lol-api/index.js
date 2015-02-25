@@ -12,7 +12,7 @@ if (!API_KEY) {
 module.exports = LOL_API = {};
 
 // Template strings don't work :(
-//  var requestUrl = 'https://${region}.api.pvp.net/api/lol/${region}/v1.4/summoner/by-name/${summoner_name}?api_key=${API_KEY}';
+// var requestUrl = 'https://${region}.api.pvp.net/api/lol/${region}/v1.4/summoner/by-name/${summoner_name}?api_key=${API_KEY}';
 LOL_API.getSummonerInfo = function(region, summoner_name, cb) {
   var requestUrl = 'https://' +
                     region + '.api.pvp.net/api/lol/' +
@@ -20,11 +20,22 @@ LOL_API.getSummonerInfo = function(region, summoner_name, cb) {
                     summoner_name + '?api_key=' +
                     API_KEY;
 
-  cacheSvc.getValue(requestUrl, 10000, function(callback) {
+
+
+
+  // Attempts to retrieve information from cache.
+  // If the value is not found then API information is used and stored
+  cacheSvc.getValue(requestUrl, function(err, cachedValue) {
+    if (err) return cb(err);
+    if (cachedValue) return cb(null, JSON.parse(cachedValue.toString()));
+
     request.get(requestUrl, function (err, response, body) {
-      callback(err, JSON.parse(body));
+      if (err) return cb(err);
+      cacheSvc.setValue(requestUrl, body, function (err, value) {
+        cb(null, JSON.parse(body));
+      });
     });
-  }, cb);
+  });
 };
 
 // var requestUrl = 'https://${region}.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/${platform_id}/${player_id}?api_key=${API_KEY}';
@@ -52,8 +63,8 @@ LOL_API.getMatchInfo = function (region, player_id, cb) {
 
 
 LOL_API.getSpectateInfo = function(region, name, cb) {
-
   var self = this;
+
   async.waterfall([
     function (callback) {
       self.getSummonerInfo(region, name, callback);
