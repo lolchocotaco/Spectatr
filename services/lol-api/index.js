@@ -58,7 +58,6 @@ LOL_API.getMatchInfo = function (region, player_id, cb) {
       });
     }
 
-    console.log(body);
     cb(null, JSON.parse(body));
   });
 };
@@ -72,15 +71,12 @@ LOL_API.getSpectateInfo = function(region, name, cb) {
       self.getSummonerInfo(region, name, callback);
     },
     function (player_info, callback) {
-      if(name.toLowerCase() === 'hippobirth') {
-        console.log(player_info);
-      }
       self.getMatchInfo(region, player_info[name.toLowerCase()].id, callback);
     }
   ], function (err, spectate_data) {
     if (err) return cb(err);
     if (spectate_data.status === 'fail') { return cb(null, spectate_data); }
-
+    console.log(spectate_data.observers);
     cb(null, {
       status : 'success',
       message :'Player is in a game!',
