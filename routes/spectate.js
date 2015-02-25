@@ -38,7 +38,19 @@ router.get('/getPlayers', function(req,res,next) {
     },
     {
       name: 'imaqtpie',
-      region: 'NA',
+      region: 'NA'
+    },
+    {
+      name: 'ObligatoryHam',
+      region: 'NA'
+    },
+    {
+      name:'kenman21',
+      region: 'NA'
+    },
+    {
+      name:'BrainStorm',
+      region: 'NA'
     }
   ];
 
