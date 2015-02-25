@@ -33,4 +33,6 @@ cacheSvc.getValue = function(namespace, timeout, dataProvider) {
     val = dataProvider();
     mc.set(namespace, val, null, timeout);
   }
+
+  return val;
 };
