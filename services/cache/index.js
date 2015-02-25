@@ -24,20 +24,14 @@ module.exports = cacheSvc = {};
  *
  */
 cacheSvc.getValue = function(namespace, timeout, dataProvider, cb) {
-  console.log(mc);
   mc.get(namespace, function(err, cachedValue) {
-    console.log(cachedValue);
-    console.log(cachedValue.length);
     if (!cachedValue.length) {
       dataProvider(function(err, data) {
         mc.set(namespace, data, function(err, value) {
-          console.log(data);
-          console.log(value);
           cb(err, data);
         }, timeout);
       });
     } else {
-      console.log(cachedValue);
       cb(err, cachedValue);
     }
   });
