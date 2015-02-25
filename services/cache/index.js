@@ -23,16 +23,17 @@ module.exports = cacheSvc = {};
  * the dataProvider
  *
  */
-cacheSvc.getValue = function(namespace, timeout, dataProvider, cb) {
-  mc.get(namespace, function(err, cachedValue) {
-    if (!cachedValue.length) {
-      dataProvider(function(err, data) {
-        mc.set(namespace, data, function(err, value) {
-          cb(err, data);
-        }, timeout);
-      });
-    } else {
-      cb(err, cachedValue);
-    }
+cacheSvc.getValue = function (namespace, timeout, dataProvider, cb) {
+  mc.get(namespace, function (err, cachedValue) {
+    if (err) return cb(err);
+    if (cachedValue) return cb(null, cachedValue);
+
+    dataProvider(function (err, data) {
+      if (err) return cb(err);
+      
+      mc.set(namespace, data, function(err, value) {
+        cb(err, data);
+      }, timeout);
+    });
   });
 };
