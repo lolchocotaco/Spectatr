@@ -57,6 +57,7 @@ LOL_API.getMatchInfo = function (region, player_id, cb) {
         message : 'Player is not in a game!'
       });
     }
+    
     cb(null, JSON.parse(body));
   });
 };

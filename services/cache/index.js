@@ -21,7 +21,7 @@ module.exports = cacheSvc = {};
  *
  */
 cacheSvc.getValue = function (key, cb) {
-  mc.get(key,cb);
+  mc.get(key, cb);
 }
 
 cacheSvc.setValue = function (key, value, cb) {
