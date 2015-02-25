@@ -13,6 +13,9 @@ var express = require('express'),
     PORT_NUM = process.env.PORT || '8080',
     app = express();
 
+
+module.exports = app;
+
 // Middleware
 app.use(morgan('combined'));
 app.use(bodyParser.json());
