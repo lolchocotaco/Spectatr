@@ -1,6 +1,6 @@
 var request = require('request'),
     async = require('async'),
-    cache = require('../cache/cache');
+    cache = require('../cache');
 
 // Get the API from env varibles or from the provided key file
 var API_KEY = process.env.API_KEY;
@@ -20,11 +20,11 @@ LOL_API.getSummonerInfo = function(region, summoner_name, cb) {
                     summoner_name + '?api_key=' +
                     API_KEY;
 
-  request.get(requestUrl, function (err, response, body) {
-    if (err) { return cb(err); }
-    // TODO: 404s when invalid player name OR Wrong region. Pls fix.
-    cb(null, JSON.parse(body));
-  });
+  cacheSvc.getValue(requestUrl, 10000, function(callback) {
+    request.get(requestUrl, function (err, response, body) {
+      callback(err, JSON.parse(body));
+    });
+  }, cb);
 };
 
 // var requestUrl = 'https://${region}.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/${platform_id}/${player_id}?api_key=${API_KEY}';
