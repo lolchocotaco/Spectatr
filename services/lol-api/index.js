@@ -1,8 +1,10 @@
 var request = require('request'),
-    async = require('async');
+    async = require('async'),
+    cache = require('../cache/cache');
 
-var KEY_FILE = require('./api_key.js');
+// Get the API from env varibles or from the provided key file
 var API_KEY = process.env.API_KEY;
+var KEY_FILE = require('./api_key.js');
 if (!API_KEY) {
   API_KEY = KEY_FILE.API_KEY;
 }
@@ -27,8 +29,8 @@ LOL_API.getSummonerInfo = function(region, summoner_name, cb) {
 
 // var requestUrl = 'https://${region}.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/${platform_id}/${player_id}?api_key=${API_KEY}';
 LOL_API.getMatchInfo = function (region, player_id, cb) {
-  var region = 'na',
-    platform_id = 'NA1'; // TODO: MAP region to platformID
+  var platform_id = 'NA1'; // TODO: MAP region to platformID
+  region = 'na';
 
   var requestUrl = 'https://' +
                     region + '.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/' +
@@ -57,7 +59,7 @@ LOL_API.getSpectateInfo = function(region, name, cb) {
       self.getSummonerInfo(region, name, callback);
     },
     function (player_info, callback) {
-      self.getMatchInfo(region, player_info[name.toLowerCase()].id, callback)
+      self.getMatchInfo(region, player_info[name.toLowerCase()].id, callback);
     }
   ], function (err, spectate_data) {
     if (err) return cb(err);
@@ -70,4 +72,4 @@ LOL_API.getSpectateInfo = function(region, name, cb) {
       spectateKey : spectate_data.observers.encryptionKey
     });
   });
-}
+};
