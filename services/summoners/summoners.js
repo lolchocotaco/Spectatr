@@ -12,7 +12,7 @@ module.exports = {
     },
     {
       name: 'imaqtpie',
-      team: 'Intro Bots',
+      team: 'BDC',
       region: 'NA'
     },
     {
@@ -29,6 +29,23 @@ module.exports = {
       name:'BrainStorm',
       team: 'Intro Bots',
       region: 'NA'
+    },
+    {
+      name:'EL Krepo',
+      team: 'Elements',
+      region: 'EUW'
+    },
+    {
+      name:'EL Rekkles',
+      team: 'Elements',
+      region: 'EUW'
+    },
+    {
+      name:'SKT T1 Faker',
+      team: 'SKT T1',
+      region: 'KR'
     }
+
+
   ]
 };

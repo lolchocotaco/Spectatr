@@ -1,0 +1,26 @@
+{
+  "na":
+  {
+    "platform_id" : "NA1",
+    "api_endpoint": "na.api.pvp.net",
+    "spectate_domain" : "spectator.na.lol.riotgames.com:80"
+  },
+  "kr":
+  {
+    "platform_id" : "KR",
+    "api_endpoint": "kr.api.pvp.net",
+    "spectate_domain" : "spectator.kr.lol.riotgames.com:80"
+  },
+  "euw":
+  {
+    "platform_id" : "EUW1",
+    "api_endpoint": "euw.api.pvp.net",
+    "spectate_domain" : "spectator.euw1.lol.riotgames.com:80"
+  },
+  "eune":
+  {
+    "platform_id" : "EUN1",
+    "api_endpoint": "eune.api.pvp.net",
+    "spectate_domain" : "spectator.eu.lol.riotgames.com:8080"
+  }
+}

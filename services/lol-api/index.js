@@ -1,6 +1,7 @@
 var request = require('request'),
     async = require('async'),
-    cache = require('../cache');
+    cache = require('../cache'),
+    regions = require('./regionData');
 
 // Get the API from env varibles or from the provided key file
 var API_KEY = process.env.API_KEY;
@@ -14,11 +15,11 @@ module.exports = LOL_API = {};
 // Template strings don't work :(
 // var requestUrl = 'https://${region}.api.pvp.net/api/lol/${region}/v1.4/summoner/by-name/${summoner_name}?api_key=${API_KEY}';
 LOL_API.getSummonerInfo = function(region, summoner_name, cb) {
-  var requestUrl = 'https://' +
-                    region + '.api.pvp.net/api/lol/' +
-                    region + '/v1.4/summoner/by-name/' +
-                    summoner_name + '?api_key=' +
-                    API_KEY;
+
+  var requestUrl = 'https://'+ regions[region.toLowerCase()].api_endpoint + '/api/lol/' +
+    region + '/v1.4/summoner/by-name/' +
+    summoner_name + '?api_key=' +
+    API_KEY;
 
   // Attempts to retrieve information from cache.
   // If the value is not found then API information is used and stored
@@ -29,6 +30,7 @@ LOL_API.getSummonerInfo = function(region, summoner_name, cb) {
     request.get(requestUrl, function (err, response, body) {
       if (err) return cb(err);
       // TODO: check for rate limit
+      if (response.statusCode !== 200 ) {console.log(body); return cb(new Error('API error'))}
       cacheSvc.setValue(requestUrl, body, 3600, function (err, value) {
         cb(null, JSON.parse(body));
       });
@@ -38,12 +40,10 @@ LOL_API.getSummonerInfo = function(region, summoner_name, cb) {
 
 // var requestUrl = 'https://${region}.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/${platform_id}/${player_id}?api_key=${API_KEY}';
 LOL_API.getMatchInfo = function (region, player_id, cb) {
-  var platform_id = 'NA1'; // TODO: MAP region to platformID
-  region = 'na';
+  var regionInfo = regions[region.toLowerCase()];
 
-  var requestUrl = 'https://' +
-                    region + '.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/' +
-                    platform_id + '/' +
+  var requestUrl = 'https://'+ regionInfo.api_endpoint + '/observer-mode/rest/consumer/getSpectatorGameInfo/' +
+                    regionInfo.platform_id + '/' +
                     player_id + '?api_key=' +
                     API_KEY;
 
@@ -88,7 +88,7 @@ LOL_API.getSpectateInfo = function(region, name, cb) {
       self.getSummonerInfo(region, name, callback);
     },
     function (player_info, callback) {
-      self.getMatchInfo(region, player_info[name.toLowerCase()].id, callback);
+      self.getMatchInfo(region, player_info[name.toLowerCase().replace(/ /g,'')].id, callback);
     }
   ], function (err, spectate_data) {
     if (err) return cb(err);
