@@ -21,7 +21,7 @@ router.get('/getInfo/:region/:summoner_name', function (req, res, next) {
       region = req.params.region;
 
   if (!summonersSvc.isValidSummoner(summoner_name)) {
-    res.status(403).send('forbidden');
+    return res.status(403).send('forbidden');
   }
 
   Api.getSpectateInfo(region, summoner_name, function (err, data) {

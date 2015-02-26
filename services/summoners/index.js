@@ -13,8 +13,9 @@ summonersSvc.getSummoners = function() {
 };
 
 summonersSvc.isValidSummoner = function(summonerName) {
-  for (var summoner in summoners.players) {
-    if (summoner.name === summonerName) {
+
+  for (var ind in summoners.players) {
+    if (summoners.players[ind].name === summonerName) {
       return true;
     }
   }
