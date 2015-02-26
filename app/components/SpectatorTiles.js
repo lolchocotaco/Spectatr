@@ -51,13 +51,26 @@ var Tile = React.createClass({
 module.exports = React.createClass({
   displayName : 'SpectatorTiles',
   render: function(){
-    var tiles = this.props.players.map(function (player, ind) {
-      return(<Tile player={player} key={ind} />);
+    var teams = {},
+      items = [];
+    this.props.players.forEach(function (player, ind) {
+      if ( !teams[player.team] ) {
+        return teams[player.team] = [player];
+      }
+      teams[player.team].push(player);
+      // return(<Tile player={player} key={ind} />);
     });
+
+    for(var teamName in teams) {
+      var players = teams[teamName].map(function(player, ind) {
+        return(<Tile player={player} key={ind} />);
+      });
+      items.push(<RB.Panel bsStyle="primary" key={items.length} header={teamName}> {players} </RB.Panel>);
+    }
 
     return (
       <div id="container" className="js-masonry" data-masonry-options='{ "columnWidth": 200, "itemSelector": ".tile" }'>
-        {tiles}
+        {items}
       </div>
     )
   }
