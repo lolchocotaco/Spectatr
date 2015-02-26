@@ -6,8 +6,7 @@
  */
 
 var memjs = require('memjs'),
-  mc = memjs.Client.create(),
-  TIMEOUT = 60; // 1 minute timeout
+  mc = memjs.Client.create();
 
 module.exports = cacheSvc = {};
 
@@ -22,8 +21,8 @@ module.exports = cacheSvc = {};
  */
 cacheSvc.getValue = function (key, cb) {
   mc.get(key, cb);
-}
+};
 
-cacheSvc.setValue = function (key, value, cb) {
-  mc.set(key, value, cb, TIMEOUT)
-}
+cacheSvc.setValue = function (key, value, timeout, cb) {
+  mc.set(key, value, cb, timeout);
+};
