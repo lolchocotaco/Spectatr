@@ -14,14 +14,11 @@ module.exports = LOL_API = {};
 // Template strings don't work :(
 // var requestUrl = 'https://${region}.api.pvp.net/api/lol/${region}/v1.4/summoner/by-name/${summoner_name}?api_key=${API_KEY}';
 LOL_API.getSummonerInfo = function(region, summoner_name, cb) {
-  var requestuUrl = 'https://' +
+  var requestUrl = 'https://' +
                     region + '.api.pvp.net/api/lol/' +
                     region + '/v1.4/summoner/by-name/' +
                     summoner_name + '?api_key=' +
                     API_KEY;
-
-
-
 
   // Attempts to retrieve information from cache.
   // If the value is not found then API information is used and stored
@@ -32,7 +29,7 @@ LOL_API.getSummonerInfo = function(region, summoner_name, cb) {
     request.get(requestUrl, function (err, response, body) {
       if (err) return cb(err);
       // TODO: check for rate limit
-      cacheSvc.setValue(requestUrl, body, function (err, value) {
+      cacheSvc.setValue(requestUrl, body, 3600, function (err, value) {
         cb(null, JSON.parse(body));
       });
     });
@@ -50,22 +47,35 @@ LOL_API.getMatchInfo = function (region, player_id, cb) {
                     player_id + '?api_key=' +
                     API_KEY;
 
-  request.get(requestUrl, function (err, response, body) {
+  cacheSvc.getValue(requestUrl, function(err, cachedValue) {
     if (err) return cb(err);
-    if (response.statusCode === 404) {
-      return cb(null, {
-        status : 'fail',
-        message : 'Player is not in a game!'
-      });
-    }
-    if (response.statusCode === 429) {
-      return cb(null,{
-        status: 'fail',
-        message: 'Rate limit exceeded'
-      });
+    if (cachedValue) {
+      return cb(null, JSON.parse(cachedValue.toString()));
     }
 
-    cb(null, JSON.parse(body));
+    request.get(requestUrl, function (err, response, body) {
+      if (err) return cb(err);
+      var message;
+      if (response.statusCode === 404) {
+        message = {
+          status : 'fail',
+          message : 'Player is not in a game!'
+        };
+        message = JSON.stringify(message);
+      } else if (response.statusCode === 429) {
+        message = {
+          status: 'fail',
+          message: 'Rate limit exceeded'
+        };
+        message = JSON.stringify(message);
+      } else {
+        message = body;
+      }
+
+      cacheSvc.setValue(requestUrl, message, 60, function (err, value) {
+        cb(null, JSON.parse(message));
+      });
+    });
   });
 };
 
