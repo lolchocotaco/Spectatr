@@ -6,6 +6,7 @@
 
 var express = require('express'),
     Api = require('../services/lol-api'),
+    summonersSvc = require('../services/summoners');
     router = express.Router();
 
 
@@ -27,33 +28,7 @@ router.get('/getInfo/:region/:summoner_name', function (req, res, next) {
 
 router.get('/getPlayers', function(req,res,next) {
   // Actually get players properly.
-  var players = [
-    {
-      name: 'HippoBirth',
-      region: 'NA'
-    },
-    {
-     name: 'LikelyToDie',
-     region: 'NA'
-    },
-    {
-      name: 'imaqtpie',
-      region: 'NA'
-    },
-    {
-      name: 'ObligatoryHam',
-      region: 'NA'
-    },
-    {
-      name:'kenman21',
-      region: 'NA'
-    },
-    {
-      name:'BrainStorm',
-      region: 'NA'
-    }
-  ];
-
+  var players = summonersSvc.getSummoners();
   res.json(players);
 });
 
