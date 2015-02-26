@@ -58,13 +58,13 @@ module.exports = React.createClass({
         return teams[player.team] = [player];
       }
       teams[player.team].push(player);
-      // return(<Tile player={player} key={ind} />);
     });
 
     for(var teamName in teams) {
       var players = teams[teamName].map(function(player, ind) {
         return(<Tile player={player} key={ind} />);
       });
+
       items.push(<RB.Panel bsStyle="primary" key={items.length} header={teamName}> {players} </RB.Panel>);
     }
 
