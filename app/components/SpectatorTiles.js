@@ -21,28 +21,29 @@ var Tile = React.createClass({
 
   render: function() {
     var link = "#";
+    var btnClass= 'btn btn-block '
 
     //This is ugly....
     if ( !(this.state.status) ) {
-      btnClass='btn-default';
+      btnClass +='btn-default';
     } else {
       if (this.state.gameId) {
-        btnClass='btn-success';
+        btnClass +='btn-success';
         link = 'http://'+this.props.player.region+'.op.gg/match/observer/id='+this.state.gameId;
       } else{
-        btnClass='btn-info';
+        btnClass +='btn-info';
       }
     }
 
     return(
-      <a className="btn" href={link}>
-        <Button className={btnClass}>
-          <div className="playerName">
-            <h3><small>{this.props.player.region}/</small>{this.props.player.name}</h3>
-          </div>
-          <div className="message">{this.state.message} </div>
-        </Button>
-      </a>
+      <RB.Col sm={3}>
+        <a className={btnClass} href={link}>
+            <div className="playerName">
+              <h3><small>{this.props.player.region}/</small>{this.props.player.name}</h3>
+            </div>
+            <div className="message">{this.state.message} </div>
+        </a>
+      </RB.Col>
     )
   }
 });
@@ -51,14 +52,32 @@ var Tile = React.createClass({
 module.exports = React.createClass({
   displayName : 'SpectatorTiles',
   render: function(){
-    var tiles = this.props.players.map(function (player, ind) {
-      return(<Tile player={player} key={ind} />);
+    var teams = {},
+      items = [];
+
+    // Split teams
+    this.props.players.forEach(function (player, ind) {
+      if ( !teams[player.team] ) {
+        return teams[player.team] = [player];
+      }
+      teams[player.team].push(player);
     });
 
+    // Render tiles to team group
+    for(var teamName in teams) {
+      var players = teams[teamName].map(function(player, ind) {
+        return(<Tile player={player} key={ind} />);
+      });
+
+      items.push(<RB.Panel bsStyle="primary" key={items.length} header={teamName}> {players} </RB.Panel>);
+    }
+
     return (
-      <div id="container" className="js-masonry" data-masonry-options='{ "columnWidth": 200, "itemSelector": ".tile" }'>
-        {tiles}
-      </div>
+      <RB.Row id="container">
+        {items}
+      </RB.Row>
     )
   }
 })
+
+// className="js-masonry" data-masonry-options='{ "columnWidth": 200, "itemSelector": ".tile" }'
