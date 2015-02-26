@@ -39,7 +39,7 @@ var Tile = React.createClass({
       <RB.Col sm={3}>
         <a className={btnClass} href={link}>
             <div className="playerName">
-              <h3><small>{this.props.player.region}/</small>{this.props.player.name}</h3>
+              <h4><small>{this.props.player.region}/</small>{this.props.player.name}</h4>
             </div>
             <div className="message">{this.state.message} </div>
         </a>
