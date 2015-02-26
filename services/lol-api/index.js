@@ -14,7 +14,7 @@ module.exports = LOL_API = {};
 // Template strings don't work :(
 // var requestUrl = 'https://${region}.api.pvp.net/api/lol/${region}/v1.4/summoner/by-name/${summoner_name}?api_key=${API_KEY}';
 LOL_API.getSummonerInfo = function(region, summoner_name, cb) {
-  var requestUrl = 'https://' +
+  var requestuUrl = 'https://' +
                     region + '.api.pvp.net/api/lol/' +
                     region + '/v1.4/summoner/by-name/' +
                     summoner_name + '?api_key=' +
@@ -57,6 +57,12 @@ LOL_API.getMatchInfo = function (region, player_id, cb) {
         message : 'Player is not in a game!'
       });
     }
+    if (response.statusCode === 429) {
+      return cb(null,{
+        status: 'fail',
+        message: 'Rate limit exceeded'
+      });
+    }
 
     cb(null, JSON.parse(body));
   });
@@ -76,7 +82,7 @@ LOL_API.getSpectateInfo = function(region, name, cb) {
   ], function (err, spectate_data) {
     if (err) return cb(err);
     if (spectate_data.status === 'fail') { return cb(null, spectate_data); }
-    console.log(spectate_data.observers);
+
     cb(null, {
       status : 'success',
       message :'Player is in a game!',
