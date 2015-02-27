@@ -31,12 +31,13 @@ module.exports = TEXT_MESSAGE = {}; // expose the module
  * Send a text message to the specified address
  *
  */
-TEXT_MESSAGE.sendMessage = function(message, address, cb) {
+TEXT_MESSAGE.sendMessage = function(message, address) {
   twilio.messages.create({
     body: message,
     to: address,
     from: PHONE_NUMBER,
   }, function(err, message) {
     console.log(message.sid);
+    return;
   });
 };
