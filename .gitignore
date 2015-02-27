@@ -32,3 +32,5 @@ node_modules
 
 # RIOT API key
 /services/lol-api/api_key.js
+/services/text-message/api_key.js
+
