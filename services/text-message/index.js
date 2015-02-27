@@ -32,7 +32,7 @@ module.exports = TEXT_MESSAGE = {}; // expose the module
  *
  */
 TEXT_MESSAGE.sendMessage = function(message, address, cb) {
-  client.messages.create({
+  twilio.messages.create({
     body: message,
     to: address,
     from: PHONE_NUMBER,
