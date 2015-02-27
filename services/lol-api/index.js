@@ -1,5 +1,4 @@
 var request = require('request'),
-    text = require('../text-message'),
     async = require('async'),
     cache = require('../cache'),
     regions = require('./regionData');
@@ -17,7 +16,6 @@ module.exports = LOL_API = {};
 // var requestUrl = 'https://${region}.api.pvp.net/api/lol/${region}/v1.4/summoner/by-name/${summoner_name}?api_key=${API_KEY}';
 LOL_API.getSummonerInfo = function(region, summoner_name, cb) {
 
-  text.sendMessage(null, null, null);
   var requestUrl = 'https://'+ regions[region.toLowerCase()].api_endpoint + '/api/lol/' +
     region + '/v1.4/summoner/by-name/' +
     summoner_name + '?api_key=' +
