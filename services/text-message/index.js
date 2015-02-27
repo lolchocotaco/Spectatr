@@ -33,8 +33,8 @@ module.exports = TEXT_MESSAGE = {}; // expose the module
  */
 TEXT_MESSAGE.sendMessage = function(message, address, cb) {
   client.messages.create({
-    body: "Sent from twilio API",
-    to: '+16318276915',
+    body: message,
+    to: address,
     from: PHONE_NUMBER,
   }, function(err, message) {
     console.log(message.sid);
