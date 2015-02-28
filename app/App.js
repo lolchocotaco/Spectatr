@@ -8,7 +8,10 @@ var React = require('react/addons'),
 
 var Spectatr = React.createClass({
   getInitialState: function(){
-    return({players:[]});
+    return({
+      players:[],
+      playerFilter : ""
+      });
   },
 
   componentDidMount: function(){
@@ -19,11 +22,22 @@ var Spectatr = React.createClass({
     }.bind(this));
   },
 
+  setFilter: function(e) {
+    this.setState({
+      playerFilter: e.target.value
+    })
+  },
+
   render: function () {
     return (
       <div className="container">
-        <h1> {this.props.title} </h1>
-        <SpectatorTiles players={this.state.players}/>
+        <RB.PageHeader> {this.props.title} </RB.PageHeader>
+        <RB.Row className="voffset2">
+          <RB.Col sm={4} xsOffset={4}>
+              <RB.Input addonBefore={<i className="fa fa-search"></i>} value={this.state.playerFilter} onChange={this.setFilter} type="search" className="form-control" placeholder="Search for Player" />
+          </RB.Col>
+        </RB.Row>
+        <SpectatorTiles filter={this.state.playerFilter} players={this.state.players}/>
       </div>
     );
   }

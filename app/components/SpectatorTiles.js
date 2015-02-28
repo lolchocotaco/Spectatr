@@ -55,8 +55,12 @@ module.exports = React.createClass({
     var teams = {},
       items = [];
 
+    var filteredPlayers = this.props.players.filter(function(player, ind) {
+      return (player.name.toLowerCase().indexOf(this.props.filter.toLowerCase()) >= 0 )
+    }.bind(this));
+
     // Split teams
-    this.props.players.forEach(function (player, ind) {
+    filteredPlayers.forEach(function (player, ind) {
       if ( !teams[player.team] ) {
         return teams[player.team] = [player];
       }
