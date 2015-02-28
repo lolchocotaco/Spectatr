@@ -16,6 +16,12 @@ var Spectatr = React.createClass({
 
   componentDidMount: function(){
     apiSvc.getPlayers(function(err, players) {
+      players.forEach(function(player, ind) {
+        apiSvc.getData(player.region, player.name, function(err, data) {
+          player.gameData = data;
+        });
+      });
+
       this.setState({
         players: players
       });
