@@ -20,7 +20,7 @@ var gulp = require('gulp'),
   server = require('./server'),
   isDebug = (process.env.NODE_ENV !== 'production'),
   vendorLibs = [
-    'react',
+    'react/addons',
     'react-bootstrap',
     'async',
     'domready',
@@ -58,6 +58,7 @@ gulp.task('app', function () {
     entries: ['./app/App.js'],
     debug: isDebug
   }).transform(reactifyES6)
+    .external(vendorLibs)
     .bundle()
     .on('error', logAndEndStream)
     .pipe(source('app.js'))
