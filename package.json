@@ -46,5 +46,7 @@
     "sinon": "^1.12.2",
     "vinyl-source-stream": "^1.0.0"
   },
-  "engine": "node 0.10.25"
+  "engines": {
+    "node": "0.10.x"
+  }
 }
