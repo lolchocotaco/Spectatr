@@ -6,15 +6,18 @@
  */
 
 // Credentials and other config
+var API_KEY;
+var AUTH_TOKEN;
+var PHONE_NUMBER;
 try {
   var KEY_FILE = require('./api_key.js');
-  var API_KEY = process.env.TWILIO_KEY ? process.env.TWILIO_KEY : KEY_FILE.API_KEY;
-  var AUTH_TOKEN = process.env.TWILIO_TOKEN ? process.env.TWILO_TOKEN : KEY_FILE.AUTH_TOKEN;
-  var PHONE_NUMBER = process.env.TWILIO_NUMBER ? process.env.TWILIO_NUMBER : KEY_FILE.PHONE_NUMBER;
+  API_KEY = process.env.TWILIO_KEY ? process.env.TWILIO_KEY : KEY_FILE.API_KEY;
+  AUTH_TOKEN = process.env.TWILIO_TOKEN ? process.env.TWILO_TOKEN : KEY_FILE.AUTH_TOKEN;
+  PHONE_NUMBER = process.env.TWILIO_NUMBER ? process.env.TWILIO_NUMBER : KEY_FILE.PHONE_NUMBER;
 } catch(e) {
-  var API_KEY = process.env.TWILIO_KEY
-  var AUTH_TOKEN = process.env.TWILIO_TOKEN
-  var PHONE_NUMBER = process.env.TWILIO_NUMBER
+  API_KEY = process.env.TWILIO_KEY
+  AUTH_TOKEN = process.env.TWILIO_TOKEN
+  PHONE_NUMBER = process.env.TWILIO_NUMBER
 }
 
 // Create text message service

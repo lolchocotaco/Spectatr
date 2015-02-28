@@ -7,7 +7,7 @@ var request = require('request'),
 try {
   var KEY_FILE = require('./api_key.js');
   var API_KEY = process.env.LOL_KEY ? process.env.LOL_KEY : KEY_FILE.API_KEY;
-} catch(e)
+} catch(e) {
   var API_KEY = process.env.LOL_KEY;
 }
 
