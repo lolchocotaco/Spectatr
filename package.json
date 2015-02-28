@@ -45,5 +45,6 @@
     "reactify": "^1.0.0",
     "sinon": "^1.12.2",
     "vinyl-source-stream": "^1.0.0"
-  }
+  },
+  "engine": "node 0.10.25"
 }
