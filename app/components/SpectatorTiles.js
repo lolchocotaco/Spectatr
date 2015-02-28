@@ -9,16 +9,9 @@ var React = require('react/addons'),
 
 var Tile = React.createClass({
   getInitialState: function() {
+    if(this.props.player.gameData) return (this.props.player.gameData);
     return({});
   },
-
-  componentDidMount: function(){
-    var self = this;
-    apiSvc.getData(this.props.player.region, this.props.player.name, function(err, data) {
-      self.setState(data);
-    });
-  },
-
   render: function() {
     var link = "#";
     var btnClass= 'btn btn-block '
