@@ -13,6 +13,7 @@ var gulp = require('gulp'),
   nodemon = require('gulp-nodemon'),
   gutil = require('gulp-util'),
   del = require('del'),
+  envify = require('envify'),
   path = require('path'),
   browserify = require('browserify'),
   reactify = require('reactify'),
@@ -58,6 +59,7 @@ gulp.task('app', function () {
     entries: ['./app/App.js'],
     debug: isDebug
   }).transform(reactifyES6)
+    .transform(envify({NODE_ENV: process.env.NODE_ENV}))
     .external(vendorLibs)
     .bundle()
     .on('error', logAndEndStream)
