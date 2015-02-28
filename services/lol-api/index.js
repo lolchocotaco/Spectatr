@@ -5,7 +5,7 @@ var request = require('request'),
 
 // Get the API from env varibles or from the provided key file
 var KEY_FILE = require('./api_key.js');
-var API_KEY = process.env.LOL_KEY ? process.env.LOL_KEY : KEY_FIL.API_KEY;
+var API_KEY = process.env.LOL_KEY ? process.env.LOL_KEY : KEY_FILE.API_KEY;
 
 module.exports = LOL_API = {};
 
