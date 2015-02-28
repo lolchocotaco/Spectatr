@@ -5,18 +5,11 @@
  *
  */
 
-// Twilio API creds
-var API_KEY;
-var AUTH_TOKEN;
-var PHONE_NUMBER;
-
-// Read the API Key
+// Credentials and other config
 var KEY_FILE = require('./api_key.js');
-if (!API_KEY) {
-  API_KEY = KEY_FILE.API_KEY;
-  AUTH_TOKEN = KEY_FILE.AUTH_TOKEN;
-  PHONE_NUMBER = KEY_FILE.PHONE_NUMBER;
-}
+var API_KEY = process.env.TWILIO_KEY ? process.env.TWILIO_KEY : KEY_FIL.API_KEY;
+var AUTH_TOKEN = process.env.TWILIO_TOKEN ? process.env.TWILO_TOKEN : KEY_FILE.AUTH_TOKEN;
+var PHONE_NUMBER = process.env.TWILIO_NUMBER ? process.env.TWILIO_NUMBER : KEY_FILE.PHONE_NUMBER;
 
 // Create text message service
 var twilio = require('twilio')(API_KEY, AUTH_TOKEN);
