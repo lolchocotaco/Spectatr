@@ -4,8 +4,12 @@ var request = require('request'),
     regions = require('./regionData');
 
 // Get the API from env varibles or from the provided key file
-var KEY_FILE = require('./api_key.js');
-var API_KEY = process.env.LOL_KEY ? process.env.LOL_KEY : KEY_FILE.API_KEY;
+try {
+  var KEY_FILE = require('./api_key.js');
+  var API_KEY = process.env.LOL_KEY ? process.env.LOL_KEY : KEY_FILE.API_KEY;
+} catch(e)
+  var API_KEY = process.env.LOL_KEY;
+}
 
 module.exports = LOL_API = {};
 
