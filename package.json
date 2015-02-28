@@ -4,6 +4,7 @@
   "description": "Spectate Faker",
   "main": "server.js",
   "scripts": {
+    "postinstall": "gulp build",
     "test": "ls"
   },
   "repository": {
