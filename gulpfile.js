@@ -59,7 +59,7 @@ gulp.task('app', function () {
     entries: ['./app/App.js'],
     debug: isDebug
   }).transform(reactifyES6)
-    .transform(envify({NODE_ENV: process.env.NODE_ENV}))
+    .transform(envify)
     .external(vendorLibs)
     .bundle()
     .on('error', logAndEndStream)
