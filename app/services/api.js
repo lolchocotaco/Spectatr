@@ -1,5 +1,5 @@
 var request = require('request'),
-  api_endpoint = process.env.api_endpoint ||'http://localhost:8080/';
+    api_endpoint = process.env.API_ENDPOINT;
 
 module.exports = api = {}
 
