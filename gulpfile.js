@@ -31,7 +31,7 @@ var gulp = require('gulp'),
 
 var api_endpoint = 'http://localhost:8080/'
 if (!isDebug) {
-  api_endpoint = '//spectatr.herokuapp.com/';
+  api_endpoint = 'spectatr.herokuapp.com/';
 }
 console.log(api_endpoint);
 
