@@ -1,11 +1,10 @@
 /** @jsx React.DOM */
 /* global document, window */
-var React = require('react/addons'),
-  RB = require('react-bootstrap'),
-  Button = RB.Button,
-  masonry = require('masonry-layout'),
-  apiSvc = require('../services/api');
+var React = require('react/addons');
 
+// React bootstrap and components
+var RB = require('react-bootstrap'),
+    Button = RB.Button;
 
 var Tile = React.createClass({
   getInitialState: function() {
@@ -18,26 +17,26 @@ var Tile = React.createClass({
 
     //This is ugly....
     if ( !(this.state.status) ) {
-      btnClass +='btn-default';
+      btnClass += 'btn-default';
     } else {
       if (this.state.gameId) {
-        btnClass +='btn-success';
-        link = 'http://'+this.props.player.region+'.op.gg/match/observer/id='+this.state.gameId;
+        btnClass += 'btn-success';
+        link = 'http://' + this.props.player.region + '.op.gg/match/observer/id=' + this.state.gameId;
       } else{
-        btnClass +='btn-info';
+        btnClass += 'btn-info';
       }
     }
 
-    return(
+    return (
       <RB.Col sm={3}>
         <a className={btnClass} href={link}>
             <div className="playerName">
               <h4><small>{this.props.player.region}/</small>{this.props.player.name}</h4>
             </div>
-            <div className="message">{this.state.message} </div>
+            <div className="message">{this.state.message}</div>
         </a>
       </RB.Col>
-    )
+    );
   }
 });
 
@@ -75,6 +74,4 @@ module.exports = React.createClass({
       </RB.Row>
     )
   }
-})
-
-// className="js-masonry" data-masonry-options='{ "columnWidth": 200, "itemSelector": ".tile" }'
+});
