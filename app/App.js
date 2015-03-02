@@ -3,6 +3,7 @@
 var React = require('react/addons'),
   RB = require('react-bootstrap'),
   domready = require('domready'),
+  async = require('async'),
   SpectatorTiles = require('./components/SpectatorTiles'),
   apiSvc = require('./services/api');
 
@@ -15,16 +16,21 @@ var Spectatr = React.createClass({
   },
 
   componentDidMount: function(){
-    apiSvc.getPlayers(function(err, players) {
-      players.forEach(function(player, ind) {
-        apiSvc.getData(player.region, player.name, function(err, data) {
-          player.gameData = data;
-        });
-      });
+    apiSvc.getPlayers(function (err, players) {
 
-      this.setState({
-        players: players
-      });
+      async.each(players, function (player, cb) {
+        apiSvc.getData(player.region, player.name, function(err, data) {
+          if (err) return cb(err);
+          player.gameData = data;
+          return cb(null)
+        });
+      }, function (err) {
+        if (err) return console.log(err);
+        
+        this.setState({
+          players : players
+        })
+      }.bind(this));
     }.bind(this));
   },
 
