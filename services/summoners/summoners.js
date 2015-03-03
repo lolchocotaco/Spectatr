@@ -11,6 +11,11 @@ module.exports = {
       region: 'NA'
     },
     {
+      name: 'ZayenX',
+      team: 'Intro Bots',
+      region: 'NA'
+    },
+    {
       name: 'imaqtpie',
       team: 'BDC',
       region: 'NA'
