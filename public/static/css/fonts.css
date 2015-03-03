@@ -3,3 +3,8 @@
  *  Because we need an awesome font to be
  *  cool like startup.
  */
+
+.region {
+  color: #eee;
+  font-size: 10px;
+}
