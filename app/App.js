@@ -16,26 +16,25 @@ var Spectatr = React.createClass({
     });
   },
 
-  componentDidMount: function(){
-    // Why dont we use var self = this instead of .bind(this)? Seems cleaner
+  getPlayerData : function () {
     var self = this;
+    console.log('Refreshing data');
+    apiSvc.getAllData(function (err, players) {
+      if (err) return console.error(err);
 
-    apiSvc.getPlayers(function (err, players) {
+      self.setState({
+        players : players
+      });
+    });
+  },
 
-      async.each(players, function (player, cb) {
-        apiSvc.getData(player.region, player.name, function(err, data) {
-          if (err) return cb(err);
-          player.gameData = data;
-          return cb(null)
-        });
-      }, function (err) {
-        if (err) return console.log(err);
+  componentDidMount: function(){
+    // Checks every 1 minute for game updates.
+    // Initial Getting of data
+    this.getPlayerData();
+    // Scheduling for every minute
+    setInterval( this.getPlayerData, 60000);
 
-        this.setState({
-          players : players
-        })
-      }.bind(this));
-    }.bind(this));
   },
 
   setFilter: function(e) {
