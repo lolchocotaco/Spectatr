@@ -13,7 +13,6 @@ var gulp = require('gulp'),
   nodemon = require('gulp-nodemon'),
   gutil = require('gulp-util'),
   del = require('del'),
-  envify = require('envify/custom'),
   path = require('path'),
   browserify = require('browserify'),
   reactify = require('reactify'),
@@ -28,12 +27,6 @@ var gulp = require('gulp'),
     'request',
     'masonry-layout'
   ];
-
-var api_endpoint = 'http://localhost:8080/'
-if (!isDebug) {
-  api_endpoint = 'http://spectatr.herokuapp.com/';
-}
-console.log(api_endpoint);
 
 var reactifyES6 = function (file) {
   return reactify(file, {harmony: true});
@@ -65,7 +58,6 @@ gulp.task('app', function () {
     entries: ['./app/App.js'],
     debug: isDebug
   }).transform(reactifyES6)
-    .transform(envify({API_ENDPOINT: api_endpoint}))
     .external(vendorLibs)
     .bundle()
     .on('error', logAndEndStream)

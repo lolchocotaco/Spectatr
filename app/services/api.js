@@ -1,14 +1,11 @@
-var request = require('request'),
-    api_endpoint = process.env.API_ENDPOINT;
+/**
+ * api.js
+ *  Communicate with the Spectatr server to get information on players and matches
+ */
+var request = require('request');
+var api_endpoint = window.document.baseURI;
 
 module.exports = api = {}
-
-console.log(window);
-if (window.document) {
-  api_endpoint = window.document.baseURI;
-}
-console.log(api_endpoint);
-
 
 api.getPlayers = function(cb) {
   var requestUrl = api_endpoint + 'spectate/getPlayers';
