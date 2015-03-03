@@ -23,6 +23,13 @@
   float: none;
 }
 
+/* Search box */
+.form-control,
+.form-control:focus {
+  border-color: #ccc;
+  box-shadow: none;
+}
+
 /* Spectatr tiles */
 .tile {
   padding-top: 5px;
