@@ -23,7 +23,7 @@ var Tile = React.createClass({
     }
 
     return (
-      <RB.Col sm={3} className="voffset">
+      <RB.Col sm={3} className="tile voffset">
         <a className={btnClass} href={link}>
             <div className="playerName">
               <h4><small>{this.props.player.region}/</small>{this.props.player.name}</h4>
