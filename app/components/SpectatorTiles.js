@@ -44,7 +44,7 @@ module.exports = React.createClass({
         items = [];
 
     // No players available (loading animation)
-    // should this be its own component?
+    // probably should this be its own component
     if (this.props.players.length <=0 ) {
       return(
         <RB.Row className="center-container">
