@@ -1,8 +1,8 @@
-.tile {
-  background-color: #E0E0E0
-}
+/*
+ * app.css
+ */
 
-
+/* Grid */
 .voffset  { margin-bottom: 2px; }
 .voffset1 { margin-bottom: 5px; }
 .voffset2 { margin-bottom: 10px; }
@@ -13,3 +13,24 @@
 .voffset7 { margin-bottom: 80px; }
 .voffset8 { margin-bottom: 100px; }
 .voffset9 { margin-bottom: 150px; }
+
+.center-container {
+  text-align: center;
+}
+
+.center-block {
+  margin: 0 auto;
+  float: none;
+}
+
+/* Spectatr tiles */
+.tile {
+  background-color: #E0E0E0
+}
+
+
+/* Loading animation */
+.loading {
+  width: auto;
+  padding-top: 20px;
+}

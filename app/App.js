@@ -1,21 +1,25 @@
 /** @jsx React.DOM */
 /* global document, window */
 var React = require('react/addons'),
-  RB = require('react-bootstrap'),
-  domready = require('domready'),
-  async = require('async'),
-  SpectatorTiles = require('./components/SpectatorTiles'),
-  apiSvc = require('./services/api');
+    RB = require('react-bootstrap'),
+    domready = require('domready'),
+    async = require('async'),
+    SpectatorTiles = require('./components/SpectatorTiles'),
+    apiSvc = require('./services/api');
 
 var Spectatr = React.createClass({
+
   getInitialState: function(){
     return({
       players:[],
       playerFilter : ""
-      });
+    });
   },
 
   componentDidMount: function(){
+    // Why dont we use var self = this instead of .bind(this)? Seems cleaner
+    var self = this;
+
     apiSvc.getPlayers(function (err, players) {
 
       async.each(players, function (player, cb) {
@@ -26,7 +30,7 @@ var Spectatr = React.createClass({
         });
       }, function (err) {
         if (err) return console.log(err);
-        
+
         this.setState({
           players : players
         })

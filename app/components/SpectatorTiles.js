@@ -18,7 +18,7 @@ var Tile = React.createClass({
     if (this.props.player.gameData.gameId) {
       btnClass += 'btn-success';
       link = 'http://' + this.props.player.region + '.op.gg/match/observer/id=' + this.props.player.gameData.gameId;
-    } else{
+    } else {
       btnClass += 'btn-info';
     }
 
@@ -38,48 +38,48 @@ var Tile = React.createClass({
 
 module.exports = React.createClass({
   displayName : 'SpectatorTiles',
-  render: function(){
-    var teams = {},
-      items = [];
 
-    console.log(this.props.players.length);
+  render: function() {
+    var teams = {},
+        items = [];
+
+    // No players available (loading animation)
+    // should this be its own component?
     if (this.props.players.length <=0 ) {
       return(
-        <RB.Row>
-          <RB.Col className ="center-block" lg={3}>
-            <i className='fa fa-spin fa-spinner fa-5x'></i>
+        <RB.Row className="center-container">
+          <RB.Col className ="center-block" sm={2}>
+            <div className='fa fa-spin fa-spinner fa-5x'></div>
           </RB.Col>
         </RB.Row>
       )
     }
 
+     var filteredPlayers = this.props.players.filter(function(player, ind) {
+       return (player.name.toLowerCase().indexOf(this.props.filter.toLowerCase()) >= 0 )
+     }.bind(this));
 
-    // COMMENT OUT WHEN YOU FIGURE OUT THE SPINNY THING
-    // var filteredPlayers = this.props.players.filter(function(player, ind) {
-    //   return (player.name.toLowerCase().indexOf(this.props.filter.toLowerCase()) >= 0 )
-    // }.bind(this));
-    //
-    // // Split teams
-    // filteredPlayers.forEach(function (player, ind) {
-    //   if ( !teams[player.team] ) {
-    //     return teams[player.team] = [player];
-    //   }
-    //   teams[player.team].push(player);
-    // });
-    //
-    // // Render tiles to team group
-    // for(var teamName in teams) {
-    //   var players = teams[teamName].map(function(player, ind) {
-    //     return(<Tile player={player} key={ind} />);
-    //   });
-    //
-    //   items.push(<RB.Panel bsStyle="primary" key={items.length} header={teamName}> {players} </RB.Panel>);
-    // }
-    //
-    // return (
-    //   <RB.Row id="container">
-    //     {items}
-    //   </RB.Row>
-    // )
+     // Split teams
+     filteredPlayers.forEach(function (player, ind) {
+       if ( !teams[player.team] ) {
+         return teams[player.team] = [player];
+       }
+       teams[player.team].push(player);
+     });
+
+     // Render tiles to team group
+     for(var teamName in teams) {
+       var players = teams[teamName].map(function(player, ind) {
+         return(<Tile player={player} key={ind} />);
+       });
+
+       items.push(<RB.Panel bsStyle="primary" key={items.length} header={teamName}> {players} </RB.Panel>);
+     }
+
+     return (
+       <RB.Row id="container">
+         {items}
+       </RB.Row>
+     )
   }
 });
