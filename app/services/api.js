@@ -3,9 +3,11 @@ var request = require('request'),
 
 module.exports = api = {}
 
-if (document.window) {
-  api_endpoint = document.window.href;
+console.log(window);
+if (window.document) {
+  api_endpoint = window.document.baseURI;
 }
+console.log(api_endpoint);
 
 
 api.getPlayers = function(cb) {
