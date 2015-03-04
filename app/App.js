@@ -2,6 +2,7 @@
 /* global document, window */
 var React = require('react/addons'),
     RB = require('react-bootstrap'),
+    Button = RB.Button,
     domready = require('domready'),
     async = require('async'),
     SpectatorTiles = require('./components/SpectatorTiles'),
@@ -9,19 +10,22 @@ var React = require('react/addons'),
 
 var Spectatr = React.createClass({
 
-  getInitialState: function(){
+  getInitialState: function() {
     return({
       players:[],
       playerFilter : ""
     });
   },
 
-  componentDidMount: function(){
-    // Why dont we use var self = this instead of .bind(this)? Seems cleaner
+  updatePlayerState: function() {
+    // Go back to a loading state
+    this.setState({
+      players: []
+    });
+
+    // Get updated player states
     var self = this;
-
     apiSvc.getPlayers(function (err, players) {
-
       async.each(players, function (player, cb) {
         apiSvc.getData(player.region, player.name, function(err, data) {
           if (err) return cb(err);
@@ -31,11 +35,16 @@ var Spectatr = React.createClass({
       }, function (err) {
         if (err) return console.log(err);
 
-        this.setState({
+        self.setState({
           players : players
         })
-      }.bind(this));
-    }.bind(this));
+      });
+    });
+  },
+
+  componentDidMount: function() {
+    // Get state for players
+    this.updatePlayerState();
   },
 
   setFilter: function(e) {
@@ -50,7 +59,10 @@ var Spectatr = React.createClass({
         <RB.PageHeader> {this.props.title} </RB.PageHeader>
         <RB.Row className="voffset2">
           <RB.Col sm={4} xsOffset={4}>
-              <RB.Input addonBefore={<i className="fa fa-search"></i>} value={this.state.playerFilter} onChange={this.setFilter} type="search" className="form-control" placeholder="Search for Player" />
+              <RB.Input addonBefore={<div className="fa fa-search"></div>} value={this.state.playerFilter} onChange={this.setFilter} type="search" className="form-control" placeholder="Search for Player" />
+          </RB.Col>
+          <RB.Col xsOffset={11}>
+            <Button bsStyle="primary" onClick={this.updatePlayerState}>Refresh</Button>
           </RB.Col>
         </RB.Row>
         <SpectatorTiles filter={this.state.playerFilter} players={this.state.players}/>
