@@ -17,34 +17,23 @@ var Spectatr = React.createClass({
     });
   },
 
-  updatePlayerState: function() {
-    // Go back to a loading state
-    this.setState({
-      players: []
-    });
-
-    // Get updated player states
+  getPlayerData : function () {
     var self = this;
-    apiSvc.getPlayers(function (err, players) {
-      async.each(players, function (player, cb) {
-        apiSvc.getData(player.region, player.name, function(err, data) {
-          if (err) return cb(err);
-          player.gameData = data;
-          return cb(null)
-        });
-      }, function (err) {
-        if (err) return console.log(err);
+    apiSvc.getAllData(function (err, players) {
+      if (err) return console.error(err);
 
-        self.setState({
-          players : players
-        })
+      self.setState({
+        players : players
       });
     });
   },
 
-  componentDidMount: function() {
-    // Get state for players
-    this.updatePlayerState();
+  componentDidMount: function(){
+    // Checks every 1 minute for game updates.
+    // Initial Getting of data
+    this.getPlayerData();
+    // Scheduling for every minute
+    setInterval( this.getPlayerData, 60000);
   },
 
   setFilter: function(e) {
@@ -62,7 +51,7 @@ var Spectatr = React.createClass({
               <RB.Input addonBefore={<div className="fa fa-search"></div>} value={this.state.playerFilter} onChange={this.setFilter} type="search" className="form-control" placeholder="Search for Player" />
           </RB.Col>
           <RB.Col xsOffset={11}>
-            <Button bsStyle="primary" onClick={this.updatePlayerState}>Refresh</Button>
+            <Button bsStyle="primary" onClick={this.getPlayerData}>Refresh</Button>
           </RB.Col>
         </RB.Row>
         <SpectatorTiles filter={this.state.playerFilter} players={this.state.players}/>

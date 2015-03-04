@@ -2,6 +2,13 @@
  * app.css
  */
 
+/* Show scrollbars at all time */
+html {
+     overflow: -moz-scrollbars-vertical;
+     overflow: scroll;
+}
+
+
 /* Grid */
 .voffset  { margin-bottom: 2px; }
 .voffset1 { margin-bottom: 5px; }

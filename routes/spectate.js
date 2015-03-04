@@ -5,6 +5,7 @@
  */
 
 var express = require('express'),
+    async = require('async'),
     Api = require('../services/lol-api'),
     summonersSvc = require('../services/summoners');
     router = express.Router();
@@ -34,6 +35,23 @@ router.get('/getPlayers', function(req,res,next) {
   // Actually get players properly.
   var players = summonersSvc.getSummoners();
   res.json(players);
+});
+
+// Gets players and sumonner info
+router.get('/playerData', function (req, res, next) {
+  var players = summonersSvc.getSummoners();
+  
+  async.each(players, function (player, cb) {
+    Api.getSpectateInfo(player.region, player.name, function(err, gameData) {
+      if (err) return cb(err);
+
+      player.gameData = gameData;
+      return cb(null);
+    })
+  }, function (err) {
+    if (err) return next(err);
+    res.json(players)
+  });
 });
 
 // Expose the router
