@@ -49,6 +49,11 @@ module.exports = {
       name:'SKT T1 Faker',
       team: 'SKT T1',
       region: 'KR'
+    },
+    {
+      name:'TheOddOne',
+      team: 'TSM',
+      region: 'NA'
     }
 
 

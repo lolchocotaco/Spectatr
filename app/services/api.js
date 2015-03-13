@@ -6,7 +6,7 @@ var request = require('request'),
   async = require('async');
 var api_endpoint = window.document.baseURI;
 
-module.exports = api = {}
+module.exports = api = {};
 
 api.getPlayers = function (cb) {
   var requestUrl = api_endpoint + 'spectate/getPlayers';
@@ -17,7 +17,7 @@ api.getPlayers = function (cb) {
     }
     return cb(null, JSON.parse(body));
   });
-}
+};
 
 api.getData = function (region, player_name, cb) {
   var requestUrl = api_endpoint +'spectate/getInfo/'+ region +'/'+player_name;
@@ -28,7 +28,7 @@ api.getData = function (region, player_name, cb) {
     }
     return cb(null, JSON.parse(body));
   });
-}
+};
 
 api.getAllData = function (cb) {
   var requestUrl = api_endpoint + 'spectate/playerData';
@@ -39,4 +39,4 @@ api.getAllData = function (cb) {
     }
     return cb(null, JSON.parse(body));
   });
-}
+};

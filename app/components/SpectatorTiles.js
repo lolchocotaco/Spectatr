@@ -7,24 +7,34 @@ var React = require('react/addons');
 //        region
 //        name
 var RB = require('react-bootstrap'),
-    Button = RB.Button;
+    Button = RB.Button,
+    api_endpoint = window.document.baseURI;
+
 
 var Tile = React.createClass({
   render: function() {
     var link = "#",
-    btnClass= 'btn btn-block '
+    btnClass= 'btn btn-block ',
+    scriptName ;
 
     //This is ugly....
     if (this.props.player.gameData.gameId) {
       btnClass += 'btn-success';
-      link = 'http://' + this.props.player.region + '.op.gg/match/observer/id=' + this.props.player.gameData.gameId;
+      link = api_endpoint + 'spectate/game/'+this.props.player.gameData.gameId+'/'+this.props.player.gameData.spectateKey;
+      
+      if ( navigator.userAgent.toLowerCase().indexOf('mac') >=0 ) {
+        scriptName = 'script.sh';
+      } else {
+        scriptName = 'script.bat';
+      }
+
     } else {
       btnClass += 'btn-info';
     }
 
     return (
       <RB.Col sm={3} className="tile voffset">
-        <a className={btnClass} href={link}>
+        <a className={btnClass} href={link} download={scriptName}>
             <div className="playerName">
               <h4>{this.props.player.name}<small className="region"> ({this.props.player.region})</small></h4>
             </div>
