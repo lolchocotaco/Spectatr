@@ -34,7 +34,7 @@ LOL_API.getSummonerInfo = function(region, summoner_name, cb) {
       request.get(requestUrl, function (err, response, body) {
         if (err) return cb(err);
         // TODO: check for rate limit
-        if (response.statusCode !== 200 ) {console.log(body); return cb(new Error('API error'))}
+        if (response.statusCode !== 200 ) {console.log(body); return cb(new Error('API error'))};
         cacheSvc.setValue(requestUrl, body, 3600, function (err, value) {
           cb(null, JSON.parse(body));
         });
