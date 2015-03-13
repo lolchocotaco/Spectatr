@@ -1,7 +1,9 @@
 var request = require('request'),
     async = require('async'),
+    RateLimiter = require('limiter').RateLimiter,
     cache = require('../cache'),
-    regions = require('./regionData');
+    regions = require('./regionData'),
+    limiter = new RateLimiter(10, 'seconds');
 
 // Get the API from env varibles or from the provided key file
 try {
@@ -28,12 +30,14 @@ LOL_API.getSummonerInfo = function(region, summoner_name, cb) {
     if (err) return cb(err);
     if (cachedValue) return cb(null, JSON.parse(cachedValue.toString()));
 
-    request.get(requestUrl, function (err, response, body) {
-      if (err) return cb(err);
-      // TODO: check for rate limit
-      if (response.statusCode !== 200 ) {console.log(body); return cb(new Error('API error'))}
-      cacheSvc.setValue(requestUrl, body, 3600, function (err, value) {
-        cb(null, JSON.parse(body));
+    limiter.removeTokens(1, function() {
+      request.get(requestUrl, function (err, response, body) {
+        if (err) return cb(err);
+        // TODO: check for rate limit
+        if (response.statusCode !== 200 ) {console.log(body); return cb(new Error('API error'))}
+        cacheSvc.setValue(requestUrl, body, 3600, function (err, value) {
+          cb(null, JSON.parse(body));
+        });
       });
     });
   });
@@ -48,33 +52,36 @@ LOL_API.getMatchInfo = function (region, player_id, cb) {
                     player_id + '?api_key=' +
                     API_KEY;
 
-  cacheSvc.getValue(requestUrl, function(err, cachedValue) {
+  cacheSvc.getValue(requestUrl, function (err, cachedValue) {
     if (err) return cb(err);
     if (cachedValue) {
       return cb(null, JSON.parse(cachedValue.toString()));
     }
 
-    request.get(requestUrl, function (err, response, body) {
-      if (err) return cb(err);
-      var message;
-      if (response.statusCode === 404) {
-        message = {
-          status : 'fail',
-          message : 'Player is not in a game!'
-        };
-        message = JSON.stringify(message);
-      } else if (response.statusCode === 429) {
-        message = {
-          status: 'fail',
-          message: 'Rate limit exceeded'
-        };
-        message = JSON.stringify(message);
-      } else {
-        message = body;
-      }
+    limiter.removeTokens(1, function() {
+      request.get(requestUrl, function (err, response, body) {
+        if (err) return cb(err);
+        var message;
 
-      cacheSvc.setValue(requestUrl, message, 60, function (err, value) {
-        cb(null, JSON.parse(message));
+        if (response.statusCode === 404) {
+          message = {
+            status : 'fail',
+            message : 'Player is not in a game!'
+          };
+          message = JSON.stringify(message);
+        } else if (response.statusCode === 429) {
+          message = {
+            status: 'fail',
+            message: 'Rate limit exceeded'
+          };
+          message = JSON.stringify(message);
+        } else {
+          message = body;
+        }
+
+        cacheSvc.setValue(requestUrl, message, 60, function (err, value) {
+          cb(null, JSON.parse(message));
+        });
       });
     });
   });
